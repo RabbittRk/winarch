@@ -26,7 +26,7 @@ Future<bool> preCommit() async {
     if (result.stdout.toString().trim().isNotEmpty) print(result.stdout);
     if (result.stderr.toString().trim().isNotEmpty) print(result.stderr);
     if (result.exitCode != 0) return false;
-    // Re-stage files modified by format/fix so the commit includes those changes.
+    // Re-stage so changes from format/fix are committed (they run after you stage).
     final addResult =
         await Process.run('git', ['add', '.'], workingDirectory: cwd);
     if (addResult.exitCode != 0) return false;
