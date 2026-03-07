@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'typography.dart';
+import 'ui/appbar.dart';
+import 'ui/button.dart';
 
 class MaterialTheme {
   final TextTheme textTheme;
@@ -342,15 +344,22 @@ class MaterialTheme {
   }
 
 
-  ThemeData theme(ColorScheme colorScheme) => ThemeData(
-     useMaterial3: true,
-     brightness: colorScheme.brightness,
-     colorScheme: colorScheme,
-     textTheme: textTheme.apply(
-       bodyColor: colorScheme.onSurface,
-       displayColor: colorScheme.onSurface,
-     ),
-     scaffoldBackgroundColor: colorScheme.surface,
-     canvasColor: colorScheme.surface,
-  );
+  ThemeData theme(ColorScheme colorScheme) {
+    final effectiveTextTheme = textTheme.apply(
+      bodyColor: colorScheme.onSurface,
+      displayColor: colorScheme.onSurface,
+    );
+    return ThemeData(
+      useMaterial3: true,
+      brightness: colorScheme.brightness,
+      colorScheme: colorScheme,
+      textTheme: effectiveTextTheme,
+      scaffoldBackgroundColor: colorScheme.surface,
+      canvasColor: colorScheme.surface,
+      appBarTheme: appBarTheme(colorScheme, effectiveTextTheme),
+      filledButtonTheme: filledButtonTheme(colorScheme, effectiveTextTheme),
+      outlinedButtonTheme: outlinedButtonTheme(colorScheme, effectiveTextTheme),
+      textButtonTheme: textButtonTheme(colorScheme, effectiveTextTheme),
+    );
+  }
 }

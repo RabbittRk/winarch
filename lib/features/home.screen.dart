@@ -17,7 +17,14 @@ class _HomePageState extends ConsumerState<HomePage> {
         title: const Text('Home'),
       ),
       body: Center(
-        child: Text('Home'),
+        child: Column(
+          children: [
+            Text('Home'),
+            FilledButton(onPressed: () {
+              // ref.read(themeProvider.notifier).toggle();
+            }, child: const Text('Toggle Theme')),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
