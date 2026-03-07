@@ -8,7 +8,9 @@ const _defaultShape = RoundedRectangleBorder(
 
 /// Default (primary) filled button — shadcn "default" variant.
 FilledButtonThemeData filledButtonTheme(
-    ColorScheme colorScheme, TextTheme textTheme) {
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+) {
   return FilledButtonThemeData(
     style: FilledButton.styleFrom(
       foregroundColor: colorScheme.onPrimary,
@@ -26,7 +28,9 @@ FilledButtonThemeData filledButtonTheme(
 
 /// Outline button — shadcn "outline" variant.
 OutlinedButtonThemeData outlinedButtonTheme(
-    ColorScheme colorScheme, TextTheme textTheme) {
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+) {
   return OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: colorScheme.onSurface,
@@ -43,7 +47,9 @@ OutlinedButtonThemeData outlinedButtonTheme(
 
 /// Ghost / minimal button — shadcn "ghost" variant.
 TextButtonThemeData textButtonTheme(
-    ColorScheme colorScheme, TextTheme textTheme) {
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+) {
   return TextButtonThemeData(
     style: TextButton.styleFrom(
       foregroundColor: colorScheme.onSurface,
@@ -58,7 +64,9 @@ TextButtonThemeData textButtonTheme(
 
 /// Secondary (tonal) — use with [FilledButton.tonal].
 FilledButtonThemeData filledTonalButtonTheme(
-    ColorScheme colorScheme, TextTheme textTheme) {
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+) {
   return FilledButtonThemeData(
     style: FilledButton.styleFrom(
       foregroundColor: colorScheme.onSecondaryContainer,
@@ -76,7 +84,9 @@ FilledButtonThemeData filledTonalButtonTheme(
 
 /// Secondary (tonal) — shadcn "secondary" variant. Use as [FilledButton] style override.
 ButtonStyle secondaryFilledButtonStyle(
-    ColorScheme colorScheme, TextTheme textTheme) {
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+) {
   return FilledButton.styleFrom(
     foregroundColor: colorScheme.onSecondaryContainer,
     backgroundColor: colorScheme.secondaryContainer,
@@ -92,7 +102,9 @@ ButtonStyle secondaryFilledButtonStyle(
 
 /// Destructive filled — shadcn "destructive" variant. Use as [FilledButton] style override.
 ButtonStyle destructiveFilledButtonStyle(
-    ColorScheme colorScheme, TextTheme textTheme) {
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+) {
   return FilledButton.styleFrom(
     foregroundColor: colorScheme.onError,
     backgroundColor: colorScheme.error,

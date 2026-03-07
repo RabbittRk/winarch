@@ -23,8 +23,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             Text('Home').p(16),
             FilledButton(
               onPressed: () async {
-
-                await Future.delayed(const Duration(seconds: 1),(){
+                await Future.delayed(const Duration(seconds: 1), () {
                   print('sdfasdf');
                 });
                 // ref.read(themeProvider.notifier).toggle();
