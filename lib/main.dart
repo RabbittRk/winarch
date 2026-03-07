@@ -1,10 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:winarch/router/app_router.dart';
 import 'package:winarch/theme/theme.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runZonedGuarded(() {
+    runApp(const ProviderScope(child: MyApp()));
+  }, (error, stackTrace) {
+    debugPrint(error.toString());
+    debugPrint(stackTrace.toString());
+  });
 }
 
 class MyApp extends ConsumerWidget {

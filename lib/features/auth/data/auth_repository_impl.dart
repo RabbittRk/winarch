@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:winarch/storage/secure_storage_helper.dart';
 
 import '../domain/auth_repository.dart';
 import '../domain/auth_user.dart';
@@ -10,10 +10,10 @@ const _keyAuthUser = 'auth_user';
 
 /// Persists auth session in secure storage and exposes auth state as a stream.
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl({FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+  AuthRepositoryImpl({required SecureStorageHelper storage})
+      : _storage = storage;
 
-  final FlutterSecureStorage _storage;
+  final SecureStorageHelper _storage;
   final _authStateController = StreamController<AuthUser?>.broadcast();
 
   @override
@@ -23,7 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   Future<AuthUser?> _readUser() async {
-    final json = await _storage.read(key: _keyAuthUser);
+    final json = await _storage.read(_keyAuthUser);
     if (json == null) return null;
     try {
       final map = jsonDecode(json) as Map<String, dynamic>;
@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
         email: map['email'] as String,
       );
     } catch (_) {
-      await _storage.delete(key: _keyAuthUser);
+      await _storage.delete(_keyAuthUser);
       return null;
     }
   }
@@ -52,15 +52,15 @@ class AuthRepositoryImpl implements AuthRepository {
       email: e,
     );
     await _storage.write(
-      key: _keyAuthUser,
-      value: jsonEncode({'id': user.id, 'email': user.email}),
+      _keyAuthUser,
+      jsonEncode({'id': user.id, 'email': user.email}),
     );
     _authStateController.add(user);
   }
 
   @override
   Future<void> signOut() async {
-    await _storage.delete(key: _keyAuthUser);
+    await _storage.delete(_keyAuthUser);
     _authStateController.add(null);
   }
 }

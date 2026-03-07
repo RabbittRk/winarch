@@ -11,31 +11,37 @@ void main(List<String> arguments) {
 }
 
 /// Runs format, fix, format, then analyze. Returns false if any step fails.
+/// Re-stages any files modified by format/fix so the commit includes those changes.
 Future<bool> preCommit() async {
-  const steps = [
+  const dartSteps = [
     ('dart', ['format', '.']),
     ('dart', ['fix', '--apply']),
     ('dart', ['format', '.']),
-    ('dart', ['analyze', '--fatal-warnings']),
   ];
 
-  for (final step in steps) {
-    final result = await Process.run(
-      step.$1,
-      step.$2,
-      workingDirectory: Directory.current.path,
-    );
-    if (result.stdout.toString().trim().isNotEmpty) {
-      print(result.stdout);
-    }
-    if (result.stderr.toString().trim().isNotEmpty) {
-      print(result.stderr);
-    }
-    if (result.exitCode != 0) {
-      return false;
-    }
+  final cwd = Directory.current.path;
+
+  for (final step in dartSteps) {
+    final result = await Process.run(step.$1, step.$2, workingDirectory: cwd);
+    if (result.stdout.toString().trim().isNotEmpty) print(result.stdout);
+    if (result.stderr.toString().trim().isNotEmpty) print(result.stderr);
+    if (result.exitCode != 0) return false;
+    // Re-stage files modified by format/fix so the commit includes those changes.
+    final addResult =
+        await Process.run('git', ['add', '.'], workingDirectory: cwd);
+    if (addResult.exitCode != 0) return false;
   }
-  return true;
+
+  final analyzeResult = await Process.run(
+    'dart',
+    ['analyze', '--fatal-warnings'],
+    workingDirectory: cwd,
+  );
+  if (analyzeResult.stdout.toString().trim().isNotEmpty)
+    print(analyzeResult.stdout);
+  if (analyzeResult.stderr.toString().trim().isNotEmpty)
+    print(analyzeResult.stderr);
+  return analyzeResult.exitCode == 0;
 }
 
 /// Validates conventional commit: type(scope): subject, header max 100 chars.

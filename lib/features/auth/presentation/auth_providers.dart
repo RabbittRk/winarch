@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:winarch/features/auth/data/auth_repository_impl.dart';
 import 'package:winarch/features/auth/domain/auth_repository.dart';
 import 'package:winarch/features/auth/domain/auth_user.dart';
+import 'package:winarch/storage/secure_storage_provider.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl();
+  final storage = ref.watch(secureStorageProvider);
+  return AuthRepositoryImpl(storage: storage);
 });
 
 final authStateProvider = StreamProvider<AuthUser?>((ref) {
