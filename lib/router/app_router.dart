@@ -7,8 +7,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/',
       name: 'home',
-      builder: (BuildContext context, GoRouterState state) =>
-          const HomePage(),
+      builder: (BuildContext context, GoRouterState state) => const HomePage(),
     ),
     GoRoute(
       path: '/login',

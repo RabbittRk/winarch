@@ -7,7 +7,8 @@ const _defaultShape = RoundedRectangleBorder(
 );
 
 /// Default (primary) filled button — shadcn "default" variant.
-FilledButtonThemeData filledButtonTheme(ColorScheme colorScheme, TextTheme textTheme) {
+FilledButtonThemeData filledButtonTheme(
+    ColorScheme colorScheme, TextTheme textTheme) {
   return FilledButtonThemeData(
     style: FilledButton.styleFrom(
       foregroundColor: colorScheme.onPrimary,
@@ -24,7 +25,8 @@ FilledButtonThemeData filledButtonTheme(ColorScheme colorScheme, TextTheme textT
 }
 
 /// Outline button — shadcn "outline" variant.
-OutlinedButtonThemeData outlinedButtonTheme(ColorScheme colorScheme, TextTheme textTheme) {
+OutlinedButtonThemeData outlinedButtonTheme(
+    ColorScheme colorScheme, TextTheme textTheme) {
   return OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: colorScheme.onSurface,
@@ -40,7 +42,8 @@ OutlinedButtonThemeData outlinedButtonTheme(ColorScheme colorScheme, TextTheme t
 }
 
 /// Ghost / minimal button — shadcn "ghost" variant.
-TextButtonThemeData textButtonTheme(ColorScheme colorScheme, TextTheme textTheme) {
+TextButtonThemeData textButtonTheme(
+    ColorScheme colorScheme, TextTheme textTheme) {
   return TextButtonThemeData(
     style: TextButton.styleFrom(
       foregroundColor: colorScheme.onSurface,
@@ -54,7 +57,8 @@ TextButtonThemeData textButtonTheme(ColorScheme colorScheme, TextTheme textTheme
 }
 
 /// Secondary (tonal) — use with [FilledButton.tonal].
-FilledButtonThemeData filledTonalButtonTheme(ColorScheme colorScheme, TextTheme textTheme) {
+FilledButtonThemeData filledTonalButtonTheme(
+    ColorScheme colorScheme, TextTheme textTheme) {
   return FilledButtonThemeData(
     style: FilledButton.styleFrom(
       foregroundColor: colorScheme.onSecondaryContainer,
@@ -71,7 +75,8 @@ FilledButtonThemeData filledTonalButtonTheme(ColorScheme colorScheme, TextTheme 
 }
 
 /// Secondary (tonal) — shadcn "secondary" variant. Use as [FilledButton] style override.
-ButtonStyle secondaryFilledButtonStyle(ColorScheme colorScheme, TextTheme textTheme) {
+ButtonStyle secondaryFilledButtonStyle(
+    ColorScheme colorScheme, TextTheme textTheme) {
   return FilledButton.styleFrom(
     foregroundColor: colorScheme.onSecondaryContainer,
     backgroundColor: colorScheme.secondaryContainer,
@@ -86,7 +91,8 @@ ButtonStyle secondaryFilledButtonStyle(ColorScheme colorScheme, TextTheme textTh
 }
 
 /// Destructive filled — shadcn "destructive" variant. Use as [FilledButton] style override.
-ButtonStyle destructiveFilledButtonStyle(ColorScheme colorScheme, TextTheme textTheme) {
+ButtonStyle destructiveFilledButtonStyle(
+    ColorScheme colorScheme, TextTheme textTheme) {
   return FilledButton.styleFrom(
     foregroundColor: colorScheme.onError,
     backgroundColor: colorScheme.error,

@@ -24,7 +24,8 @@ void main() {
       expect(context.theme, isA<ThemeData>());
     });
 
-    testWidgets('textTheme and colors are available from theme', (tester) async {
+    testWidgets('textTheme and colors are available from theme',
+        (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(body: SizedBox()),
@@ -274,7 +275,8 @@ void main() {
     test('pltrb applies fromLTRB padding', () {
       const w = SizedBox();
       final padded = w.pltrb(1, 2, 3, 4);
-      expect((padded as Padding).padding, const EdgeInsets.fromLTRB(1, 2, 3, 4));
+      expect(
+          (padded as Padding).padding, const EdgeInsets.fromLTRB(1, 2, 3, 4));
     });
   });
 
@@ -341,7 +343,7 @@ void main() {
       final result = list.paddingTopEach(10);
       expect(result.length, 2);
       expect(result[0], isA<Padding>());
-      expect((result[0] as Padding).padding, const EdgeInsets.only(top: 10));
+      expect((result[0]).padding, const EdgeInsets.only(top: 10));
       expect(result[1], isA<Padding>());
     });
   });

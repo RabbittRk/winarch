@@ -5,13 +5,12 @@ import 'ui/appbar.dart';
 import 'ui/button.dart';
 
 class MaterialTheme {
-  final TextTheme textTheme;
-
   const MaterialTheme(this.textTheme);
 
   /// Material theme using app typography from [TextTypoGraphy].
   factory MaterialTheme.withAppTypography() =>
       MaterialTheme(TextTypoGraphy.instance!.textTheme);
+  final TextTheme textTheme;
 
   static ColorScheme lightScheme() {
     return const ColorScheme(
@@ -342,7 +341,6 @@ class MaterialTheme {
   ThemeData darkHighContrast() {
     return theme(darkHighContrastScheme());
   }
-
 
   ThemeData theme(ColorScheme colorScheme) {
     final effectiveTextTheme = textTheme.apply(

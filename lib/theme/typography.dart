@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TextTypoGraphy {
+  TextTypoGraphy._init();
   static TextTypoGraphy? _instance;
 
   static TextTypoGraphy? get instance {
     _instance ??= TextTypoGraphy._init();
     return _instance;
   }
-
-  TextTypoGraphy._init();
 
   TextStyle get displayLarge => GoogleFonts.gabarito(
         fontSize: 93,
@@ -90,20 +89,20 @@ class TextTypoGraphy {
       );
 
   TextTheme get textTheme => TextTheme(
-    displayLarge: displayLarge,
-    displayMedium: displayMedium,
-    displaySmall: displaySmall,
-    headlineLarge: headlineLarge,
-    headlineMedium: headlineMedium,
-    headlineSmall: headlineSmall,
-    titleLarge: titleLarge,
-    titleMedium: titleMedium,
-    titleSmall: titleSmall,
-    bodyLarge: bodyLarge,
-    bodyMedium: bodyMedium,
-    bodySmall: bodySmall,
-    labelLarge: labelLarge,
-    labelMedium: labelMedium,
-    labelSmall: labelSmall,
-  );
+        displayLarge: displayLarge,
+        displayMedium: displayMedium,
+        displaySmall: displaySmall,
+        headlineLarge: headlineLarge,
+        headlineMedium: headlineMedium,
+        headlineSmall: headlineSmall,
+        titleLarge: titleLarge,
+        titleMedium: titleMedium,
+        titleSmall: titleSmall,
+        bodyLarge: bodyLarge,
+        bodyMedium: bodyMedium,
+        bodySmall: bodySmall,
+        labelLarge: labelLarge,
+        labelMedium: labelMedium,
+        labelSmall: labelSmall,
+      );
 }

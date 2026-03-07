@@ -21,10 +21,20 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # Use package (full path) imports instead of relative imports (e.g. ../)
+    # Consistency & style (reduce debate)
     avoid_relative_lib_imports: true
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    avoid_print: warning
+    prefer_single_quotes: warning
+    require_trailing_commas: true
+    sort_constructors_first: true
+    # Correctness & safety
+    deprecated_member_use_from_same_package: warning
+    use_build_context_synchronously: error
+    avoid_redundant_argument_values: true
+    # Immutability & modern Dart (large-scale friendly)
+    use_super_parameters: true
+    prefer_final_locals: true
+    prefer_final_in_for_each: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

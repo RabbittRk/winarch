@@ -21,9 +21,16 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: Column(
           children: [
             Text('Home').p(16),
-            FilledButton(onPressed: () {
-              // ref.read(themeProvider.notifier).toggle();
-            }, child: const Text('Toggle Theme')),
+            FilledButton(
+              onPressed: () async {
+
+                await Future.delayed(const Duration(seconds: 1),(){
+                  print('sdfasdf');
+                });
+                // ref.read(themeProvider.notifier).toggle();
+              },
+              child: const Text('Toggle Theme'),
+            ),
           ],
         ),
       ),

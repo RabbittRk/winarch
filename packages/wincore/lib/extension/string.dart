@@ -20,7 +20,7 @@ extension IndianCurrencyFormat on double {
   String get toAmount {
     // Handle negative numbers
     bool isNegative = this < 0;
-    String amount = this.abs().toString();
+    String amount = abs().toString();
 
     // Split into rupees and paise
     List<String> parts = amount.split('.');
@@ -60,7 +60,7 @@ extension StringExtension on String {
   }
 
   String get toInitials {
-    List<String> words = this.split(' ');
+    List<String> words = split(' ');
 
     if (words.length == 1) {
       // If there's only one word, return its initial
@@ -78,7 +78,7 @@ extension StringExtension on String {
   }
 
   String toCapitalize() {
-    return this[0].toUpperCase() + this.substring(1);
+    return this[0].toUpperCase() + substring(1);
   }
 }
 
