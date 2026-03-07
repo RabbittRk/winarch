@@ -37,6 +37,13 @@ dependencies:
   riverpod_annotation: ^4.0.2
   flutter_secure_storage: ^10.0.0
   google_fonts: ^8.0.2
+  dio: ^5.9.2
+  freezed: ^3.2.5
+  dartz: ^0.10.1
+  intl: ^0.20.2
+  solar_icons: ^0.0.5
+  wincore:
+    path: ./packages/wincore
 
 dev_dependencies:
   flutter_test:

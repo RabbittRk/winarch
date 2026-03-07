@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:winarch/theme/theme.dart';
+import 'package:wincore/wincore.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -19,7 +20,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: Center(
         child: Column(
           children: [
-            Text('Home'),
+            Text('Home').p(16),
             FilledButton(onPressed: () {
               // ref.read(themeProvider.notifier).toggle();
             }, child: const Text('Toggle Theme')),
