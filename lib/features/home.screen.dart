@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:winarch/features/auth/presentation/auth_providers.dart';
 import 'package:winarch/theme/theme.dart';
 import 'package:wincore/wincore.dart';
 
@@ -16,6 +17,13 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => ref.read(authRepositoryProvider).signOut(),
+            tooltip: 'Sign out',
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -23,10 +31,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             Text('Home').p(16),
             FilledButton(
               onPressed: () async {
-                await Future.delayed(const Duration(seconds: 1), () {
-                  print('sdfasdf');
-                });
-                // ref.read(themeProvider.notifier).toggle();
+                await Future.delayed(const Duration(seconds: 1), () {});
               },
               child: const Text('Toggle Theme'),
             ),

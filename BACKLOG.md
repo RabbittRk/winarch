@@ -10,7 +10,7 @@ Setup and migration tasks for the **winarch** Flutter app.
 - [x] Add `go_router`
 - [x] Add `flutter_secure_storage`
 - [x] Add dev deps: `riverpod_generator`, `build_runner`, `custom_lint`, `riverpod_lint` (optional)
-- [ ] Run `flutter pub get`
+- [x] Run `flutter pub get`
 
 ---
 
@@ -29,7 +29,7 @@ Setup and migration tasks for the **winarch** Flutter app.
 
 ## 3. Riverpod Setup
 
-- [ ] Wrap app with `ProviderScope` in `main.dart`
+- [x] Wrap app with `ProviderScope` in `main.dart`
 - [ ] Create a root “app provider” or bootstrap provider if needed
 - [ ] Define provider conventions (e.g. `*Provider` for refs, `*Notifier` for logic)
 - [ ] Add `ProviderScope`-level overrides for tests (e.g. mock storage, mock repo)
@@ -38,10 +38,10 @@ Setup and migration tasks for the **winarch** Flutter app.
 
 ## 4. GoRouter Setup
 
-- [ ] Add go_router dependency and create `GoRouter` instance (e.g. in `lib/core/router/` or `lib/shared/router/`)
+- [x] Add go_router dependency and create `GoRouter` instance (e.g. in `lib/core/router/` or `lib/shared/router/`)
 - [ ] Define route paths as constants (e.g. `/`, `/login`, `/home`, `/settings`)
 - [ ] Implement `GoRoute` tree with `path`, `name`, `builder` (or `pageBuilder`)
-- [ ] Use `MaterialApp.router` with `routerConfig: goRouter` in `main.dart`
+- [x] Use `MaterialApp.router` with `routerConfig: goRouter` in `main.dart`
 - [ ] Add redirect logic (e.g. auth redirect to `/login` or `/home`) using a provider that reads auth state
 - [ ] Optional: shell routes / nested navigation (e.g. bottom nav with `StatefulShellRoute`)
 
