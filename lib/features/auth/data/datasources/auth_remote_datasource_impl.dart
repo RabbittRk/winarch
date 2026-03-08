@@ -16,6 +16,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
+      // TODO: Remove this after testing
+      username = 'emilys';
+      password = 'emilyspass';
+
       final response = await _api.login({
         'username': username,
         'password': password,

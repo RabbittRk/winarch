@@ -22,17 +22,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final loginState = ref.watch(loginNotifierProvider);
 
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
-      if (next is LoginSuccess && mounted) {
+      if (next.status is LoginStatusSuccess && mounted) {
         context.go('/');
       }
-      if (next is LoginFailure && mounted) {
+      if (next.status is LoginStatusFailure &&
+          mounted &&
+          next.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.message)),
+          SnackBar(content: Text(next.errorMessage!)),
         );
       }
     });
 
-    final isLoading = loginState is LoginLoading;
+    final isLoading = loginState.isLoading;
 
     return Scaffold(
       body: SafeArea(
@@ -57,11 +59,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               const SizedBox(height: 16),
               FormBuilderTextField(
                 name: 'password',
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      loginState.isPasswordObscure
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                    onPressed: () => ref
+                        .read(loginNotifierProvider.notifier)
+                        .togglePasswordObscure(),
+                  ),
                 ),
-                obscureText: true,
+                obscureText: loginState.isPasswordObscure,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   FormBuilderValidators.minLength(6),
