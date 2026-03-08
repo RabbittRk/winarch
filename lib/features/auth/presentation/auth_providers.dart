@@ -1,20 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:winarch/core/network/dio_base_provider.dart';
-import 'package:winarch/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:winarch/features/auth/data/datasources/auth_remote_datasource_impl.dart';
-import 'package:winarch/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:winarch/core/di/get_it_provider.dart';
 import 'package:winarch/features/auth/domain/auth_repository.dart';
 import 'package:winarch/features/auth/domain/auth_user.dart';
 
-final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
-  final dio = ref.watch(dioProvider);
-  return AuthRemoteDataSourceImpl(dio: dio);
-});
-
+/// Auth repository from GetIt, for presentation (e.g. router redirect).
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  final remote = ref.watch(authRemoteDataSourceProvider);
-  return AuthRepositoryImpl(remote: remote);
+  return ref.read(getItProvider).get<AuthRepository>();
 });
 
 final authStateProvider = StreamProvider<AuthUser?>((ref) {

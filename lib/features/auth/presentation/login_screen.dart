@@ -3,7 +3,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:winarch/features/auth/presentation/auth_providers.dart';
+import 'package:winarch/features/auth/presentation/login_notifier.dart';
+import 'package:winarch/features/auth/presentation/login_state.dart';
 import 'package:wincore/wincore.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -15,36 +16,24 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormBuilderState>();
-  bool _isLoading = false;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
-    setState(() => _isLoading = true);
-
-    final values = _formKey.currentState?.instantValue;
-    if (values == null) return;
-
-    try {
-      await ref.read(authRepositoryProvider).signIn(values: values);
-      if (mounted) context.go('/');
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
-      } else {}
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final loginState = ref.watch(loginNotifierProvider);
+
+    ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
+      if (next is LoginSuccess && mounted) {
+        context.go('/');
+      }
+      if (next is LoginFailure && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.message)),
+        );
+      }
+    });
+
+    final isLoading = loginState is LoginLoading;
+
     return Scaffold(
       body: SafeArea(
         child: FormBuilder(
@@ -80,8 +69,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
               const SizedBox(height: 24),
               FilledButton(
-                onPressed: _isLoading ? null : _submit,
-                child: _isLoading
+                onPressed: isLoading
+                    ? null
+                    : () => _submit(ref.read(loginNotifierProvider.notifier)),
+                child: isLoading
                     ? const SizedBox(
                         height: 20,
                         width: 20,
@@ -90,9 +81,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     : const Text('Sign in'),
               ),
             ],
-          ),
-        ).p(24),
+          ).p(24),
+        ),
       ),
     );
+  }
+
+  void _submit(LoginNotifier notifier) {
+    if (!_formKey.currentState!.validate()) return;
+    final values = _formKey.currentState?.instantValue;
+    if (values == null) return;
+    final username = values['username'] as String? ?? '';
+    final password = values['password'] as String? ?? '';
+    notifier.submit(username, password);
   }
 }

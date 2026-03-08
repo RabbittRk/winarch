@@ -27,6 +27,12 @@ class SecureStorageHelper {
 
   Future<void> deleteToken() => _storage.delete(key: 'token');
 
+  /// Deletes both access and refresh tokens (e.g. on sign out).
+  Future<void> clearAuthTokens() async {
+    await _storage.delete(key: 'token');
+    await _storage.delete(key: 'refreshToken');
+  }
+
   /// Writes access token and optionally refresh token (e.g. after refresh).
   Future<void> saveTokens(String accessToken, String? refreshToken) async {
     await _storage.write(key: 'token', value: accessToken);
