@@ -13,10 +13,4 @@ abstract class AuthRepository {
 
   /// Clears the current session.
   Future<void> signOut();
-
-  /// Returns the current access token, or null if not signed in.
-  /// Used by the auth interceptor to attach the bearer token.
-  Future<String?> getAccessToken();
-
-  Future<String?> getRefreshToken();
 }

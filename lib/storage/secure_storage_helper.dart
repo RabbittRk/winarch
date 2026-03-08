@@ -20,4 +20,18 @@ class SecureStorageHelper {
 
   /// Deletes all keys and values.
   Future<void> clear() => _storage.deleteAll();
+
+  Future<String?> getToken() => _storage.read(key: 'token');
+
+  Future<String?> getRefreshToken() => _storage.read(key: 'refreshToken');
+
+  Future<void> deleteToken() => _storage.delete(key: 'token');
+
+  /// Writes access token and optionally refresh token (e.g. after refresh).
+  Future<void> saveTokens(String accessToken, String? refreshToken) async {
+    await _storage.write(key: 'token', value: accessToken);
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      await _storage.write(key: 'refreshToken', value: refreshToken);
+    }
+  }
 }

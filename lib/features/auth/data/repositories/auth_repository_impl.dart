@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:winarch/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:winarch/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:winarch/features/auth/domain/auth_repository.dart';
 import 'package:winarch/features/auth/domain/auth_user.dart';
@@ -9,17 +8,13 @@ import 'package:winarch/features/auth/domain/auth_user.dart';
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
     required AuthRemoteDataSource remote,
-    required AuthLocalDataSource local,
-  })  : _remote = remote,
-        _local = local;
+  }) : _remote = remote;
 
   final AuthRemoteDataSource _remote;
-  final AuthLocalDataSource _local;
   final _authStateController = StreamController<AuthUser?>.broadcast();
 
   @override
   Stream<AuthUser?> get authState async* {
-    yield await _local.getCurrentUser();
     yield* _authStateController.stream;
   }
 
@@ -46,11 +41,6 @@ class AuthRepositoryImpl implements AuthRepository {
           id: response.id.toString(),
           email: response.email,
         );
-        await _local.saveSession(
-          token: response.accessToken,
-          refreshToken: response.refreshToken,
-          user: user,
-        );
         _authStateController.add(user);
       },
     );
@@ -58,13 +48,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    await _local.clearSession();
     _authStateController.add(null);
   }
-
-  @override
-  Future<String?> getAccessToken() => _local.getAccessToken();
-
-  @override
-  Future<String?> getRefreshToken() => _local.getRefreshToken();
 }
