@@ -41,6 +41,7 @@ class LoginNotifier extends Notifier<LoginState> {
         'password': password,
       });
       state = state.copyWith(status: const LoginStatusSuccess());
+      ref.invalidate(authFromStorageProvider);
     } catch (e) {
       state = state.copyWith(
         status: const LoginStatusFailure(),

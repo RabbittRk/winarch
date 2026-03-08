@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:winarch/core/di/get_it_provider.dart';
 import 'package:winarch/features/auth/data/api/auth_api.dart';
 import 'package:winarch/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:winarch/features/auth/data/datasources/auth_remote_datasource_impl.dart';
+import 'package:winarch/features/auth/data/models/auth_response.dart';
 import 'package:winarch/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:winarch/features/auth/domain/auth_repository.dart';
-import 'package:winarch/features/auth/domain/auth_user.dart';
 import 'package:winarch/features/auth/domain/usecases/login_usecase.dart';
 import 'package:winarch/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:winarch/storage/secure_storage_provider.dart';
 import 'package:winarch/storage/secure_storage_helper.dart';
 
 /// Auth API (Retrofit), feature-scoped.
@@ -40,15 +40,8 @@ final signOutUseCaseProvider = Provider<SignOutUseCase>((ref) {
   return SignOutUseCase(ref.watch(authRepositoryProvider));
 });
 
-final authStateProvider = StreamProvider<AuthUser?>((ref) {
-  return ref.watch(authRepositoryProvider).authState;
-});
-
-/// Listenable that notifies when auth state changes, for GoRouter refresh.
-final authRefreshListenableProvider = Provider<Listenable>((ref) {
-  final notifier = ValueNotifier<int>(0);
-  ref.listen(authStateProvider, (_, __) {
-    notifier.value++;
-  });
-  return notifier;
+/// Auth from secure storage (no stream). Read once; invalidate after login/signOut to refresh.
+final authFromStorageProvider = FutureProvider<AuthResponse?>((ref) async {
+  final storage = ref.watch(secureStorageProvider);
+  return storage.getAuthResponse();
 });

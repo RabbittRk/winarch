@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:winarch/features/auth/presentation/auth_providers.dart';
 import 'package:winarch/theme/theme.dart';
 import 'package:wincore/wincore.dart';
@@ -20,7 +21,11 @@ class _HomePageState extends ConsumerState<HomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => ref.read(authRepositoryProvider).signOut(),
+            onPressed: () async {
+              await ref.read(authRepositoryProvider).signOut();
+              ref.invalidate(authFromStorageProvider);
+              if (context.mounted) context.go('/login');
+            },
             tooltip: 'Sign out',
           ),
         ],

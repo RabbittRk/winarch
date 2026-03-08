@@ -4,23 +4,25 @@ import 'package:go_router/go_router.dart';
 import 'package:winarch/features/auth/presentation/auth_providers.dart';
 import 'package:winarch/features/auth/presentation/login_screen.dart';
 import 'package:winarch/features/home.screen.dart';
+import 'package:winarch/router/splash_screen.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final refresh = ref.watch(authRefreshListenableProvider);
+  ref.watch(authFromStorageProvider);
   return GoRouter(
-    refreshListenable: refresh,
+    initialLocation: '/splash',
     redirect: (BuildContext context, GoRouterState state) {
-      final auth = ProviderScope.containerOf(context).read(authStateProvider);
-      return auth.when(
-        data: (user) {
-          final isLoggedIn = user != null;
-          final isLoginRoute = state.matchedLocation == '/login';
-          if (!isLoggedIn && !isLoginRoute) return '/login';
-          if (isLoggedIn && isLoginRoute) return '/';
-          return null;
+      final authAsync =
+          ProviderScope.containerOf(context).read(authFromStorageProvider);
+      return authAsync.when(
+        data: (auth) {
+          final loggedIn = auth != null;
+          final loc = state.matchedLocation;
+          if (loc == '/splash') return loggedIn ? '/' : '/login';
+          if (!loggedIn) return loc == '/login' ? null : '/login';
+          return loc == '/login' ? '/' : null;
         },
-        loading: () => state.matchedLocation == '/login' ? null : '/login',
-        error: (_, __) => state.matchedLocation == '/login' ? null : '/login',
+        loading: () => state.matchedLocation == '/splash' ? null : '/splash',
+        error: (_, __) => '/login',
       );
     },
     routes: <RouteBase>[
@@ -29,6 +31,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: 'home',
         builder: (BuildContext context, GoRouterState state) =>
             const HomePage(),
+      ),
+      GoRoute(
+        path: '/splash',
+        name: 'splash',
+        builder: (BuildContext context, GoRouterState state) =>
+            const SplashScreen(),
       ),
       GoRoute(
         path: '/login',
