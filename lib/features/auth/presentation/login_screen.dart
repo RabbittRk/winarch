@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
+import 'package:winarch/features/auth/presentation/auth_providers.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -12,42 +14,32 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormBuilderState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
-    _formKey.currentState?.saveAndValidate();
-    debugPrint(_formKey.currentState?.value.toString());
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _isLoading = true);
 
-    // On another side, can access all field values without saving form with instantValues
-    _formKey.currentState?.validate();
-    debugPrint(_formKey.currentState?.instantValue.toString());
+    final values = _formKey.currentState?.instantValue;
+    if (values == null) return;
 
-    // if (!_formKey.currentState!.validate()) return;
-    // setState(() => _isLoading = true);
-    // try {
-    //   await ref.read(authRepositoryProvider).signIn(
-    //         email: _emailController.text,
-    //         password: _passwordController.text,
-    //       );
-    //   if (mounted) context.go('/');
-    // } catch (e) {
-    //   if (mounted) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(content: Text(e.toString())),
-    //     );
-    //   }
-    // } finally {
-    //   if (mounted) setState(() => _isLoading = false);
-    // }
+    try {
+      await ref.read(authRepositoryProvider).signIn(values: values);
+      if (mounted) context.go('/');
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      } else {}
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override

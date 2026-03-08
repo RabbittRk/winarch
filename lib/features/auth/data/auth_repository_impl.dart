@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:winarch/storage/secure_storage_helper.dart';
 
-import '../domain/auth_repository.dart';
-import '../domain/auth_user.dart';
+import 'package:winarch/features/auth/domain/auth_repository.dart';
+import 'package:winarch/features/auth/domain/auth_user.dart';
 
 const _keyAuthUser = 'auth_user';
 
@@ -39,11 +39,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> signIn({
-    required String email,
-    required String password,
+    required Map<String, dynamic> values,
   }) async {
-    final e = email.trim();
-    final p = password;
+    final e = values['email'] as String;
+    final p = values['password'] as String;
     if (e.isEmpty || p.isEmpty) {
       throw ArgumentError('Email and password are required');
     }

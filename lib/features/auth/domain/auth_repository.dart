@@ -1,4 +1,4 @@
-import 'auth_user.dart';
+import 'package:winarch/features/auth/domain/auth_user.dart';
 
 /// Contract for authentication: sign in, sign out, and stream of auth state.
 abstract class AuthRepository {
@@ -8,8 +8,7 @@ abstract class AuthRepository {
   /// Signs in with [email] and [password]. For bare minimum, validates locally
   /// and persists session; no backend call.
   Future<void> signIn({
-    required String email,
-    required String password,
+    required Map<String, dynamic> values,
   });
 
   /// Clears the current session.

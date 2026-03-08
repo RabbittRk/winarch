@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'material.dart';
-import 'typography.dart';
+import 'package:winarch/theme/material.dart';
+import 'package:winarch/theme/typography.dart';
 
 /// Composes typography and material into light/dark [ThemeData].
 class AppTheme {

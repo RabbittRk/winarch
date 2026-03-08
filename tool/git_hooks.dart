@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:git_hooks/git_hooks.dart';
@@ -37,10 +39,12 @@ Future<bool> preCommit() async {
     ['analyze', '--fatal-warnings'],
     workingDirectory: cwd,
   );
-  if (analyzeResult.stdout.toString().trim().isNotEmpty)
+  if (analyzeResult.stdout.toString().trim().isNotEmpty) {
     print(analyzeResult.stdout);
-  if (analyzeResult.stderr.toString().trim().isNotEmpty)
+  }
+  if (analyzeResult.stderr.toString().trim().isNotEmpty) {
     print(analyzeResult.stderr);
+  }
   return analyzeResult.exitCode == 0;
 }
 

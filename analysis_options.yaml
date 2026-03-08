@@ -9,6 +9,12 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  errors:
+    # Enforce package imports within lib/ (no relative imports between lib files).
+    always_use_package_imports: error
+    avoid_empty_else: error
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
@@ -23,13 +29,16 @@ linter:
   rules:
     # Consistency & style (reduce debate)
     avoid_relative_lib_imports: true
-    avoid_print: warning
-    prefer_single_quotes: warning
+    # No relative imports between files in lib/; use package:winarch/... only.
+    always_use_package_imports: true
+    avoid_print: true
+    prefer_single_quotes: true
+    avoid_empty_else: true
     require_trailing_commas: true
     sort_constructors_first: true
     # Correctness & safety
-    deprecated_member_use_from_same_package: warning
-    use_build_context_synchronously: error
+    deprecated_member_use_from_same_package: true
+    use_build_context_synchronously: true
     avoid_redundant_argument_values: true
     # Immutability & modern Dart (large-scale friendly)
     use_super_parameters: true

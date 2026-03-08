@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'typography.dart';
-import 'ui/appbar.dart';
-import 'ui/button.dart';
+import 'package:winarch/theme/typography.dart';
+import 'package:winarch/theme/ui/appbar.dart';
+import 'package:winarch/theme/ui/button.dart';
 
 class MaterialTheme {
   const MaterialTheme(this.textTheme);
