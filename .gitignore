@@ -54,4 +54,6 @@ pubspec.lock
 
 .kotlin
 
+BACKLOG.md
+
 !.vscode/launch.json

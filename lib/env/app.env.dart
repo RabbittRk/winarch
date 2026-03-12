@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+
 enum AppEnvType {
   dev,
   uat,
@@ -31,5 +33,5 @@ abstract class AppEnvironment {
 
   set baseUrl(value) => _baseUrl = value;
 
-  // FirebaseOptions get firebaseOptions;
+  FirebaseOptions get firebaseOptions;
 }
