@@ -34,6 +34,10 @@ class DevApiSnapshotRepository {
           (d['latestSchemaJson'] as Map<String, dynamic>?) ?? const {},
       latestBodySample: (d['latestBodySample'] ?? '') as String,
       latestHasDiff: (d['latestHasDiff'] ?? false) as bool,
+      previousCapturedAt: (d['previousCapturedAt'] as Timestamp?)?.toDate(),
+      previousSchemaJson:
+          (d['previousSchemaJson'] as Map<String, dynamic>?) ?? const {},
+      previousBodySample: d['previousBodySample'] as String?,
     );
   }
 
@@ -58,12 +62,19 @@ class DevApiSnapshotRepository {
       'latestSchemaJson': schemaJson,
       'latestBodySample': bodySample,
       'latestHasDiff': false,
+      'previousCapturedAt': null,
+      'previousSchemaJson': null,
+      'previousBodySample': null,
     });
     await _eventsRef(id).add({
       'capturedAt': Timestamp.fromDate(now),
       'statusCode': statusCode,
       'diffText': 'No schema changes',
       'isBaseline': true,
+      'schemaJson': schemaJson,
+      'previousSchemaJson': null,
+      'bodySample': bodySample,
+      'previousBodySample': null,
     });
   }
 
@@ -73,6 +84,9 @@ class DevApiSnapshotRepository {
     required Map<String, dynamic> schemaJson,
     required String bodySample,
     required String diffText,
+    required Map<String, dynamic> previousSchemaJson,
+    required String previousBodySample,
+    required DateTime previousCapturedAt,
   }) async {
     final now = DateTime.now();
     await _snapshotDoc(id).update({
@@ -81,12 +95,19 @@ class DevApiSnapshotRepository {
       'latestSchemaJson': schemaJson,
       'latestBodySample': bodySample,
       'latestHasDiff': true,
+      'previousCapturedAt': Timestamp.fromDate(previousCapturedAt),
+      'previousSchemaJson': previousSchemaJson,
+      'previousBodySample': previousBodySample,
     });
     await _eventsRef(id).add({
       'capturedAt': Timestamp.fromDate(now),
       'statusCode': statusCode,
       'diffText': diffText,
       'isBaseline': false,
+      'schemaJson': schemaJson,
+      'previousSchemaJson': previousSchemaJson,
+      'bodySample': bodySample,
+      'previousBodySample': previousBodySample,
     });
   }
 }

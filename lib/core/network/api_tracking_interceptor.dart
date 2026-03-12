@@ -66,13 +66,17 @@ class ApiTrackingInterceptor extends Interceptor {
       }
 
       final diffText = renderDiffLines(diffs);
+      final bodySample = _bodySample(bodyMap);
 
       await repository.appendChange(
         id: signatureId,
         statusCode: response.statusCode ?? 0,
         schemaJson: currentSchemaJson,
-        bodySample: _bodySample(bodyMap),
+        bodySample: bodySample,
         diffText: diffText,
+        previousSchemaJson: previousSnapshot.latestSchemaJson,
+        previousBodySample: previousSnapshot.latestBodySample,
+        previousCapturedAt: previousSnapshot.latestCapturedAt,
       );
 
       _logDiff(signature.asKey, diffText);

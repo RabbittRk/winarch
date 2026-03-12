@@ -81,7 +81,7 @@ class DevApiTrackingScreen extends StatelessWidget {
                     ),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: Text(
+                      child: SelectableText(
                         _prettyPrintJson(bodySample),
                         style: const TextStyle(
                           fontFamily: 'monospace',
