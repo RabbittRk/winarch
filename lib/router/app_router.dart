@@ -5,6 +5,8 @@ import 'package:winarch/features/auth/presentation/auth_providers.dart';
 import 'package:winarch/features/auth/presentation/login_screen.dart';
 import 'package:winarch/features/home.screen.dart';
 import 'package:winarch/router/splash_screen.dart';
+import 'package:winarch/core/devtools/dev_api_tracking_banner.dart';
+import 'package:winarch/core/devtools/dev_api_tracking_screen.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   ref.watch(authFromStorageProvider);
@@ -26,23 +28,41 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       );
     },
     routes: <RouteBase>[
-      GoRoute(
-        path: '/',
-        name: 'home',
-        builder: (BuildContext context, GoRouterState state) =>
-            const HomePage(),
-      ),
-      GoRoute(
-        path: '/splash',
-        name: 'splash',
-        builder: (BuildContext context, GoRouterState state) =>
-            const SplashScreen(),
-      ),
-      GoRoute(
-        path: '/login',
-        name: 'login',
-        builder: (BuildContext context, GoRouterState state) =>
-            const LoginPage(),
+      ShellRoute(
+        builder: (BuildContext context, GoRouterState state, Widget child) {
+          return Stack(
+            children: [
+              child,
+              const DevApiTrackingBanner(),
+            ],
+          );
+        },
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/',
+            name: 'home',
+            builder: (BuildContext context, GoRouterState state) =>
+                const HomePage(),
+          ),
+          GoRoute(
+            path: '/splash',
+            name: 'splash',
+            builder: (BuildContext context, GoRouterState state) =>
+                const SplashScreen(),
+          ),
+          GoRoute(
+            path: '/login',
+            name: 'login',
+            builder: (BuildContext context, GoRouterState state) =>
+                const LoginPage(),
+          ),
+          GoRoute(
+            path: '/dev/api-tracking',
+            name: 'devApiTracking',
+            builder: (BuildContext context, GoRouterState state) =>
+                const DevApiTrackingScreen(),
+          ),
+        ],
       ),
     ],
   );
