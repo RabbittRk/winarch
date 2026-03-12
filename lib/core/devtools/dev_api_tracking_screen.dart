@@ -44,9 +44,8 @@ class DevApiTrackingScreen extends ConsumerWidget {
                     final latestStatusCode = snapshot.latestStatusCode;
                     final latestCapturedAt = snapshot.latestCapturedAt;
                     final bodySample = snapshot.latestBodySample;
-                    final latestHasDiff = snapshot.latestHasDiff;
 
-                    Widget tile = ExpansionTile(
+                    final tile = ExpansionTile(
                       tilePadding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 4,
@@ -97,10 +96,6 @@ class DevApiTrackingScreen extends ConsumerWidget {
                         const SizedBox(height: 8),
                       ],
                     );
-
-                    if (latestHasDiff) {
-                      tile = ShakeWidget(child: tile);
-                    }
 
                     return tile;
                   },

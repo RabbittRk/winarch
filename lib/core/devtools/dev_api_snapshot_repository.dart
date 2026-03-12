@@ -34,6 +34,7 @@ class DevApiSnapshotRepository {
           (d['latestSchemaJson'] as Map<String, dynamic>?) ?? const {},
       latestBodySample: (d['latestBodySample'] ?? '') as String,
       latestHasDiff: (d['latestHasDiff'] ?? false) as bool,
+      diffVersion: (d['diffVersion'] ?? 0) as int,
       previousCapturedAt: (d['previousCapturedAt'] as Timestamp?)?.toDate(),
       previousSchemaJson:
           (d['previousSchemaJson'] as Map<String, dynamic>?) ?? const {},
@@ -62,6 +63,7 @@ class DevApiSnapshotRepository {
       'latestSchemaJson': schemaJson,
       'latestBodySample': bodySample,
       'latestHasDiff': false,
+      'diffVersion': 0,
       'previousCapturedAt': null,
       'previousSchemaJson': null,
       'previousBodySample': null,
@@ -95,6 +97,7 @@ class DevApiSnapshotRepository {
       'latestSchemaJson': schemaJson,
       'latestBodySample': bodySample,
       'latestHasDiff': true,
+      'diffVersion': FieldValue.increment(1),
       'previousCapturedAt': Timestamp.fromDate(previousCapturedAt),
       'previousSchemaJson': previousSchemaJson,
       'previousBodySample': previousBodySample,

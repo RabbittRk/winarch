@@ -10,6 +10,7 @@ class DevSnapshot {
     required this.latestSchemaJson,
     required this.latestBodySample,
     required this.latestHasDiff,
+    required this.diffVersion,
     this.previousCapturedAt,
     this.previousSchemaJson,
     this.previousBodySample,
@@ -25,6 +26,7 @@ class DevSnapshot {
   final Map<String, dynamic> latestSchemaJson;
   final String latestBodySample;
   final bool latestHasDiff;
+  final int diffVersion;
   final DateTime? previousCapturedAt;
   final Map<String, dynamic>? previousSchemaJson;
   final String? previousBodySample;

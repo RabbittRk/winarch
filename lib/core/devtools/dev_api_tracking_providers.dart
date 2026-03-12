@@ -27,6 +27,7 @@ final devApiSnapshotsStreamProvider =
                       const {},
               latestBodySample: (data['latestBodySample'] ?? '') as String,
               latestHasDiff: (data['latestHasDiff'] ?? false) as bool,
+              diffVersion: (data['diffVersion'] ?? 0) as int,
               previousCapturedAt:
                   (data['previousCapturedAt'] as Timestamp?)?.toDate(),
               previousSchemaJson:
@@ -78,6 +79,17 @@ final devApiActiveDiffCountProvider = Provider<AsyncValue<int>>((ref) {
   return snapshotsAsync.whenData(
     (items) => items.where((s) => s.latestHasDiff).length,
   );
+});
+
+final devApiLatestDiffVersionProvider = Provider<AsyncValue<int>>((ref) {
+  final snapshotsAsync = ref.watch(devApiSnapshotsStreamProvider);
+  return snapshotsAsync.whenData((items) {
+    if (items.isEmpty) return 0;
+    return items.map((s) => s.diffVersion).fold<int>(
+          0,
+          (prev, v) => v > prev ? v : prev,
+        );
+  });
 });
 
 final devApiSnapshotEventsProvider =
