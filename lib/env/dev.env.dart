@@ -9,7 +9,7 @@ class DevEnvironment extends AppEnvironment {
   AppEnvType get appEnvType => AppEnvType.dev;
 
   @override
-  String get baseUrl => 'https://dummyjson.com';
+  String get baseUrl => 'https://skndan.free.beeceptor.com';
 
   @override
   FirebaseOptions get firebaseOptions => DefaultFirebaseOptions.currentPlatform;

@@ -2,108 +2,172 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:winarch/core/devtools/dev_api_tracking_providers.dart';
 
-class DevApiTrackingScreen extends StatelessWidget {
+class DevApiTrackingScreen extends ConsumerWidget {
   const DevApiTrackingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final snapshotsQuery = FirebaseFirestore.instance
-        .collection('dev_api_snapshots')
-        .orderBy('latestCapturedAt', descending: true);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapshotsAsync = ref.watch(devApiFilteredSnapshotsProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('API Tracking'),
       ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: snapshotsQuery.snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
-          final docs = snapshot.data?.docs ?? const [];
-          if (docs.isEmpty) {
-            return const Center(
-              child: Text('No API snapshots captured yet.'),
-            );
-          }
+      body: Column(
+        children: [
+          const _FiltersRow(),
+          Expanded(
+            child: snapshotsAsync.when(
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, _) => Center(
+                child: Text('Error: $error'),
+              ),
+              data: (snapshots) {
+                if (snapshots.isEmpty) {
+                  return const Center(
+                    child: Text('No API snapshots captured yet.'),
+                  );
+                }
 
-          return ListView.builder(
-            itemCount: docs.length,
-            itemBuilder: (context, index) {
-              final doc = docs[index];
-              final data = doc.data();
-              final method = data['method'] as String? ?? '';
-              final path = data['path'] as String? ?? '';
-              final query = data['query'] as String? ?? '';
-              final latestStatusCode = data['latestStatusCode'] as int? ?? 0;
-              final latestCapturedAt =
-                  (data['latestCapturedAt'] as Timestamp?)?.toDate();
-              final bodySample = data['latestBodySample'] as String? ?? '';
-              final latestHasDiff = (data['latestHasDiff'] as bool?) ?? false;
+                return ListView.builder(
+                  itemCount: snapshots.length,
+                  itemBuilder: (context, index) {
+                    final snapshot = snapshots[index];
+                    final method = snapshot.method;
+                    final path = snapshot.path;
+                    final query = snapshot.query;
+                    final latestStatusCode = snapshot.latestStatusCode;
+                    final latestCapturedAt = snapshot.latestCapturedAt;
+                    final bodySample = snapshot.latestBodySample;
+                    final latestHasDiff = snapshot.latestHasDiff;
 
-              Widget tile = ExpansionTile(
-                tilePadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                title: Text('$method $path'),
-                subtitle: Text(
-                  [
-                    if (query.isNotEmpty) '?$query',
-                    'Status $latestStatusCode',
-                    if (latestCapturedAt != null)
-                      latestCapturedAt.toLocal().toIso8601String(),
-                  ].where((e) => e.isNotEmpty).join(' • '),
-                ),
-                childrenPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Latest response body:',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: SelectableText(
-                        _prettyPrintJson(bodySample),
-                        style: const TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 12,
-                        ),
+                    Widget tile = ExpansionTile(
+                      tilePadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _EventsSection(snapshotId: doc.id),
-                  const SizedBox(height: 8),
-                ],
-              );
+                      title: Text('$method $path'),
+                      subtitle: Text(
+                        [
+                          if (query.isNotEmpty) '?$query',
+                          'Status $latestStatusCode',
+                          latestCapturedAt.toLocal().toIso8601String(),
+                        ].where((e) => e.isNotEmpty).join(' • '),
+                      ),
+                      childrenPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Latest response body:',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: SelectableText(
+                              _prettyPrintJson(bodySample),
+                              style: const TextStyle(
+                                fontFamily: 'monospace',
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        _EventsSection(snapshotId: snapshot.id),
+                        const SizedBox(height: 8),
+                      ],
+                    );
 
-              if (latestHasDiff) {
-                tile = ShakeWidget(child: tile);
-              }
+                    if (latestHasDiff) {
+                      tile = ShakeWidget(child: tile);
+                    }
 
-              return tile;
+                    return tile;
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FiltersRow extends ConsumerWidget {
+  const _FiltersRow();
+
+  static const _methods = <String>[
+    '',
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+  ];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedMethod = ref.watch(devApiMethodFilterProvider);
+    final query = ref.watch(devApiEndpointQueryProvider);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          DropdownButton<String>(
+            value: selectedMethod,
+            hint: const Text('Method'),
+            onChanged: (value) {
+              ref.read(devApiMethodFilterProvider.notifier).state = value ?? '';
             },
-          );
-        },
+            items: _methods
+                .map(
+                  (m) => DropdownMenuItem<String>(
+                    value: m,
+                    child: Text(m.isEmpty ? 'All' : m),
+                  ),
+                )
+                .toList(),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'Search endpoint',
+                hintText: '/users, id=, ?page=',
+                border: OutlineInputBorder(),
+                isDense: true,
+              ),
+              onChanged: (value) =>
+                  ref.read(devApiEndpointQueryProvider.notifier).state = value,
+              controller: TextEditingController(text: query)
+                ..selection = TextSelection.fromPosition(
+                  TextPosition(offset: query.length),
+                ),
+            ),
+          ),
+        ],
       ),
     );
   }
