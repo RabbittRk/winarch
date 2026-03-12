@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "286879065430",
+    "firebase_url": "https://gmt-driver-rk.firebaseio.com",
+    "project_id": "gmt-driver-rk",
+    "storage_bucket": "gmt-driver-rk.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286879065430:android:24080ed08797583bab62f7",
+        "android_client_info": {
+          "package_name": "com.au.smarttec.friday"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAntZzFhCEN7QdOaL5kmU03nSjex3f-kMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286879065430:android:ea248da593ebce06ab62f7",
+        "android_client_info": {
+          "package_name": "com.example.winarch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAntZzFhCEN7QdOaL5kmU03nSjex3f-kMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286879065430:android:53ed102015b1ee7fab62f7",
+        "android_client_info": {
+          "package_name": "com.timesheet.timesheet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAntZzFhCEN7QdOaL5kmU03nSjex3f-kMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
