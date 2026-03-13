@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Translations collection - readable by all, writable by admins only
+    match /translations/{locale} {
+      // Anyone can read translations (for app localization)
+      allow read: if true;
+      
+      // Only authenticated admins can write
+      // Option 1: Allow any authenticated user (for development)
+      // allow write: if request.auth != null;
+      
+      // Option 2: Check for admin claim (for production)
+      // allow write: if request.auth != null && request.auth.token.admin == true;
+      
+      // Option 3: Check specific user IDs (simple approach)
+      // allow write: if request.auth != null && request.auth.uid in ['your-admin-uid-here'];
+      
+      // For development - allow all writes (CHANGE IN PRODUCTION!)
+      allow write: if true;
+    }
+    
+    // Other collections...
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

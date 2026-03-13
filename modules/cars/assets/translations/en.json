@@ -1,0 +1,13 @@
+{
+  "cars": {
+    "title": "Cars",
+    "details": "Car Details",
+    "brand": "Brand",
+    "model": "Model",
+    "year": "Year",
+    "price": "Price",
+    "view_details": "View Details",
+    "no_cars_found": "No cars found",
+    "search_cars": "Search cars"
+  }
+}

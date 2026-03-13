@@ -1,0 +1,40 @@
+{
+  "app": {
+    "title": "விண்ஆர்ச்"
+  },
+  "common": {
+    "ok": "சரி",
+    "cancel": "ரத்து",
+    "save": "சேமி",
+    "delete": "நீக்கு",
+    "edit": "திருத்து",
+    "loading": "ஏற்றுகிறது...",
+    "error": "பிழை",
+    "retry": "மீண்டும் முயற்சி"
+  },
+  "nav": {
+    "home": "முகப்பு",
+    "explore": "ஆராய்க",
+    "profile": "சுயவிவரம்"
+  },
+  "home": {
+    "welcome": "வரவேற்பு",
+    "browse_cars": "கார்களை பார்க்க"
+  },
+  "actions": {
+    "toggle_theme": "தீம் மாற்று",
+    "sign_out": "வெளியேறு"
+  },
+  "auth": {
+    "login": "உள்நுழை",
+    "logout": "வெளியேறு",
+    "email": "மின்னஞ்சல்",
+    "password": "கடவுச்சொல்"
+  },
+  "settings": {
+    "language": "மொழி",
+    "english": "ஆங்கிலம்",
+    "tamil": "தமிழ்",
+    "select_language": "மொழியை தேர்ந்தெடு"
+  }
+}

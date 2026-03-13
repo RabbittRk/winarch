@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wincore/wincore.dart';
 
+import '../localization/cars_locale_keys.dart';
+
 class CarDetailsScreen extends StatelessWidget {
   const CarDetailsScreen({
     super.key,
@@ -16,7 +18,7 @@ class CarDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(car?['name'] ?? 'Car Details'),
+        title: Text(car?['name'] ?? CarsLocaleKeys.carsDetails.tr()),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.go('/cars'),

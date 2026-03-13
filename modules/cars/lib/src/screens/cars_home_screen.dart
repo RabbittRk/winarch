@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wincore/wincore.dart';
 
+import '../localization/cars_locale_keys.dart';
+
 class CarsHomeScreen extends StatelessWidget {
   const CarsHomeScreen({super.key});
 
@@ -24,7 +26,7 @@ class CarsHomeScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Cars'),
+          title: Text(CarsLocaleKeys.carsTitle.tr()),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => _navigateBack(context),

@@ -35,3 +35,6 @@ export 'src/screens/car_details_screen.dart';
 
 // Theme
 export 'src/theme/cars_theme.dart';
+
+// Localization
+export 'src/localization/cars_locale_keys.dart';

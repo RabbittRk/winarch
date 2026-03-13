@@ -1,0 +1,40 @@
+{
+  "app": {
+    "title": "Winarch"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry"
+  },
+  "nav": {
+    "home": "Home",
+    "explore": "Explore",
+    "profile": "Profile"
+  },
+  "home": {
+    "welcome": "Welcome Home",
+    "browse_cars": "Browse Cars"
+  },
+  "actions": {
+    "toggle_theme": "Toggle theme",
+    "sign_out": "Sign out"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password"
+  },
+  "settings": {
+    "language": "Language",
+    "english": "English",
+    "tamil": "Tamil",
+    "select_language": "Select Language"
+  }
+}
