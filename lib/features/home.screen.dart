@@ -34,6 +34,12 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: Column(
           children: [
             Text('Home').p(16),
+            TextButton(
+              onPressed: () {
+                context.push('/cars');
+              },
+              child: Text('Cars'),
+            ),
             TextFormField(),
             FilledButton(
               onPressed: () async {

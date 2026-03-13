@@ -50,6 +50,8 @@ dependencies:
     path: ./packages/wincore
   windevtool:
     path: ./packages/windevtool
+  cars:
+    path: ./modules/cars
   colorize: ^3.0.0
   get_it: ^8.0.3
   connectivity_plus: ^6.1.2

@@ -1,3 +1,4 @@
+import 'package:cars/cars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -64,6 +65,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (BuildContext context, GoRouterState state) =>
             const LoginPage(),
       ),
+
+      // Module routes
+      ...getCarsRoutes(),
     ],
   );
 });
