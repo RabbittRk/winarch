@@ -13,18 +13,19 @@ import 'package:winarch/storage/secure_storage_provider.dart';
 import 'package:winarch/storage/secure_storage_helper.dart';
 
 /// Auth API (Retrofit), feature-scoped.
-final authApiProvider = Provider<AuthApi>((ref) {
+final authApiProvider = Provider.autoDispose<AuthApi>((ref) {
   final dio = ref.read(getItProvider).get<Dio>();
   return AuthApi(dio);
 });
 
 /// Auth remote datasource, feature-scoped.
-final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
+final authRemoteDataSourceProvider =
+    Provider.autoDispose<AuthRemoteDataSource>((ref) {
   return AuthRemoteDataSourceImpl(api: ref.watch(authApiProvider));
 });
 
 /// Auth repository, feature-scoped. Used by router and use cases.
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
+final authRepositoryProvider = Provider.autoDispose<AuthRepository>((ref) {
   final secureStorage = ref.read(getItProvider).get<SecureStorageHelper>();
   return AuthRepositoryImpl(
     remote: ref.watch(authRemoteDataSourceProvider),
@@ -32,16 +33,17 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   );
 });
 
-final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
+final loginUseCaseProvider = Provider.autoDispose<LoginUseCase>((ref) {
   return LoginUseCase(ref.watch(authRepositoryProvider));
 });
 
-final signOutUseCaseProvider = Provider<SignOutUseCase>((ref) {
+final signOutUseCaseProvider = Provider.autoDispose<SignOutUseCase>((ref) {
   return SignOutUseCase(ref.watch(authRepositoryProvider));
 });
 
 /// Auth from secure storage (no stream). Read once; invalidate after login/signOut to refresh.
-final authFromStorageProvider = FutureProvider<AuthResponse?>((ref) async {
+final authFromStorageProvider =
+    FutureProvider.autoDispose<AuthResponse?>((ref) async {
   final storage = ref.watch(secureStorageProvider);
   return storage.getAuthResponse();
 });

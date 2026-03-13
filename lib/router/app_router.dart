@@ -8,11 +8,13 @@ import 'package:winarch/features/home.screen.dart';
 import 'package:winarch/router/splash_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'home');
-final _shellNavigatorExploreKey =
-    GlobalKey<NavigatorState>(debugLabel: 'explore');
-final _shellNavigatorProfileKey =
-    GlobalKey<NavigatorState>(debugLabel: 'profile');
+final _shellNavigatorFormKey = GlobalKey<NavigatorState>(debugLabel: 'form');
+final _shellNavigatorComponentsKey =
+    GlobalKey<NavigatorState>(debugLabel: 'components');
+final _shellNavigatorSettingsKey =
+    GlobalKey<NavigatorState>(debugLabel: 'settings');
+final _shellNavigatorModulesKey =
+    GlobalKey<NavigatorState>(debugLabel: 'modules');
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   ref.watch(authFromStorageProvider);
@@ -41,36 +43,47 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return ScaffoldWithNavBar(navigationShell: navigationShell);
         },
         branches: [
-          // Home tab
+          // Form tab
           StatefulShellBranch(
-            navigatorKey: _shellNavigatorHomeKey,
+            navigatorKey: _shellNavigatorFormKey,
             routes: [
               GoRoute(
                 path: '/',
-                name: 'home',
-                builder: (context, state) => const HomeTab(),
+                name: 'form',
+                builder: (context, state) => const FormTab(),
               ),
             ],
           ),
-          // Explore tab
+          // Components tab
           StatefulShellBranch(
-            navigatorKey: _shellNavigatorExploreKey,
+            navigatorKey: _shellNavigatorComponentsKey,
             routes: [
               GoRoute(
-                path: '/explore',
-                name: 'explore',
-                builder: (context, state) => const ExploreTab(),
+                path: '/components',
+                name: 'components',
+                builder: (context, state) => const ComponentsTab(),
               ),
             ],
           ),
-          // Profile tab
+          // Settings tab
           StatefulShellBranch(
-            navigatorKey: _shellNavigatorProfileKey,
+            navigatorKey: _shellNavigatorSettingsKey,
             routes: [
               GoRoute(
-                path: '/profile',
-                name: 'profile',
-                builder: (context, state) => const ProfileTab(),
+                path: '/settings',
+                name: 'settings',
+                builder: (context, state) => const SettingsTab(),
+              ),
+            ],
+          ),
+          // Modules tab
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorModulesKey,
+            routes: [
+              GoRoute(
+                path: '/modules',
+                name: 'modules',
+                builder: (context, state) => const ModulesTab(),
               ),
             ],
           ),

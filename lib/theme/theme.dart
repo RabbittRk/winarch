@@ -47,6 +47,18 @@ class ThemeNotifier extends Notifier<ThemeState> {
           state.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light,
     );
   }
+
+  void setLight() => _setMode(ThemeMode.light);
+  void setDark() => _setMode(ThemeMode.dark);
+  void setSystem() => _setMode(ThemeMode.system);
+
+  void _setMode(ThemeMode mode) {
+    state = ThemeState(
+      theme: _appTheme.light,
+      darkTheme: _appTheme.dark,
+      themeMode: mode,
+    );
+  }
 }
 
 final themeProvider =

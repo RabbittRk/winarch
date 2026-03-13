@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:winarch/theme/typography.dart';
 import 'package:winarch/theme/ui/appbar.dart';
 import 'package:winarch/theme/ui/button.dart';
+import 'package:winarch/theme/ui/textformfield.dart';
 
 class MaterialTheme {
   const MaterialTheme(this.textTheme);
@@ -353,6 +354,8 @@ class MaterialTheme {
       textTheme: effectiveTextTheme,
       scaffoldBackgroundColor: colorScheme.surface,
       canvasColor: colorScheme.surface,
+      inputDecorationTheme:
+          inputDecorationTheme(colorScheme, effectiveTextTheme),
       appBarTheme: appBarTheme(colorScheme, effectiveTextTheme),
       filledButtonTheme: filledButtonTheme(colorScheme, effectiveTextTheme),
       outlinedButtonTheme: outlinedButtonTheme(colorScheme, effectiveTextTheme),
