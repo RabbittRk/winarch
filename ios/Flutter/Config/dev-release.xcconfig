@@ -1,0 +1,6 @@
+#include "../Release.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER=com.skndan.winarch.dev
+PRODUCT_NAME=Winarch Dev
+FLUTTER_TARGET=lib/main_dev.dart
+ASSET_PREFIX=dev

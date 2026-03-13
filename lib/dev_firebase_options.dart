@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-class DefaultFirebaseOptions {
+class DevFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -59,7 +59,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAntZzFhCEN7QdOaL5kmU03nSjex3f-kMU',
-    appId: '1:286879065430:android:e71692e2e7ae4e31ab62f7',
+    appId: '1:286879065430:android:2cb91939db596bebab62f7',
     messagingSenderId: '286879065430',
     projectId: 'gmt-driver-rk',
     databaseURL: 'https://gmt-driver-rk.firebaseio.com',
@@ -68,11 +68,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDSgxnbohXG5tHKZ3oujgdshwaawIwt_58',
-    appId: '1:286879065430:ios:89ade88bf6fd5a44ab62f7',
+    appId: '1:286879065430:ios:5cda5e128ef62c59ab62f7',
     messagingSenderId: '286879065430',
     projectId: 'gmt-driver-rk',
     databaseURL: 'https://gmt-driver-rk.firebaseio.com',
     storageBucket: 'gmt-driver-rk.firebasestorage.app',
-    iosBundleId: 'com.skndan.winarch',
+    iosBundleId: 'com.skndan.winarch.dev',
   );
 }

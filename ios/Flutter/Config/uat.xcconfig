@@ -1,0 +1,6 @@
+#include "../Debug.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER=com.skndan.winarch.uat
+PRODUCT_NAME=Winarch UAT
+FLUTTER_TARGET=lib/main_uat.dart
+ASSET_PREFIX=uat

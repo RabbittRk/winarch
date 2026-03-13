@@ -17,7 +17,8 @@ class ConnectivityServiceImpl implements ConnectivityService {
           r == ConnectivityResult.mobile ||
           r == ConnectivityResult.wifi ||
           r == ConnectivityResult.ethernet ||
-          r == ConnectivityResult.vpn,
+          r == ConnectivityResult.vpn ||
+          r == ConnectivityResult.other,
     );
   }
 

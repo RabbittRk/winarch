@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:winarch/env/app.env.dart';
-import 'package:winarch/firebase_options.dart';
+import 'package:winarch/prod_firebase_options.dart';
 
 class ProdEnvironment extends AppEnvironment {
   ProdEnvironment() : super.public();
@@ -12,5 +12,5 @@ class ProdEnvironment extends AppEnvironment {
   String get baseUrl => 'https://dummyjson.com';
 
   @override
-  FirebaseOptions get firebaseOptions => DefaultFirebaseOptions.currentPlatform;
+  FirebaseOptions get firebaseOptions => ProdFirebaseOptions.currentPlatform;
 }

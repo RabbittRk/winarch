@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:winarch/dev_firebase_options.dart';
 import 'package:winarch/env/app.env.dart';
-import 'package:winarch/firebase_options.dart';
 
 class DevEnvironment extends AppEnvironment {
   DevEnvironment() : super.public();
@@ -12,5 +12,5 @@ class DevEnvironment extends AppEnvironment {
   String get baseUrl => 'https://skndan.free.beeceptor.com';
 
   @override
-  FirebaseOptions get firebaseOptions => DefaultFirebaseOptions.currentPlatform;
+  FirebaseOptions get firebaseOptions => DevFirebaseOptions.currentPlatform;
 }
