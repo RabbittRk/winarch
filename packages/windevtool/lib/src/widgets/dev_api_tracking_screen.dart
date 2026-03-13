@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:winarch/core/devtools/dev_api_tracking_providers.dart';
+
+import '../config/windevtool_config.dart';
+import '../providers/dev_api_tracking_providers.dart';
 
 class DevApiTrackingScreen extends ConsumerWidget {
   const DevApiTrackingScreen({super.key});
@@ -175,7 +177,8 @@ class _EventsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final eventsQuery = FirebaseFirestore.instance
+    final firestore = WinDevTool.config.firestore;
+    final eventsQuery = firestore
         .collection('dev_api_snapshots')
         .doc(snapshotId)
         .collection('events')

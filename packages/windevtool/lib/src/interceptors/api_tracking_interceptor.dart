@@ -1,21 +1,22 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:winarch/core/devtools/api_schema_diff.dart';
-import 'package:winarch/core/devtools/dev_api_snapshot_repository.dart';
-import 'package:winarch/core/logger/app_logger.dart';
-import 'package:winarch/core/network/api_request_signature.dart';
-import 'package:winarch/core/network/api_schema_mappers.dart';
-import 'package:winarch/env/app.env.dart';
+
+import '../config/windevtool_config.dart';
+import '../repositories/dev_api_snapshot_repository.dart';
+import '../utils/api_request_signature.dart';
+import '../utils/api_schema_diff.dart';
+import '../utils/api_schema_mappers.dart';
 
 class ApiTrackingInterceptor extends Interceptor {
   ApiTrackingInterceptor({
-    required this.repository,
-  });
+    DevApiSnapshotRepository? repository,
+  }) : _repository = repository ?? DevApiSnapshotRepository();
 
-  final DevApiSnapshotRepository repository;
+  final DevApiSnapshotRepository _repository;
 
-  bool get _isEnabled => AppEnvironment().appEnvType == AppEnvType.dev;
+  bool get _isEnabled =>
+      WinDevTool.isInitialized && WinDevTool.config.isEnabled;
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
@@ -38,10 +39,10 @@ class ApiTrackingInterceptor extends Interceptor {
       final currentSchema = buildSchema(bodyMap);
       final currentSchemaJson = apiSchemaNodeToJson(currentSchema);
 
-      final previousSnapshot = await repository.loadSnapshot(signatureId);
+      final previousSnapshot = await _repository.loadSnapshot(signatureId);
 
       if (previousSnapshot == null) {
-        await repository.saveBaseline(
+        await _repository.saveBaseline(
           id: signatureId,
           signatureKey: signature.asKey,
           method: signature.method,
@@ -51,7 +52,7 @@ class ApiTrackingInterceptor extends Interceptor {
           schemaJson: currentSchemaJson,
           bodySample: _bodySample(bodyMap),
         );
-        AppLogger.log('API baseline captured for ${signature.asKey}');
+        WinDevTool.config.log('API baseline captured for ${signature.asKey}');
         handler.next(response);
         return;
       }
@@ -68,7 +69,7 @@ class ApiTrackingInterceptor extends Interceptor {
       final diffText = renderDiffLines(diffs);
       final bodySample = _bodySample(bodyMap);
 
-      await repository.appendChange(
+      await _repository.appendChange(
         id: signatureId,
         statusCode: response.statusCode ?? 0,
         schemaJson: currentSchemaJson,
@@ -81,21 +82,14 @@ class ApiTrackingInterceptor extends Interceptor {
 
       _logDiff(signature.asKey, diffText);
     } catch (e, st) {
-      AppLogger.log('ApiTrackingInterceptor error: $e\n$st');
+      WinDevTool.config.log('ApiTrackingInterceptor error: $e\n$st');
     }
 
     handler.next(response);
   }
 
-  // Optional: record failures only
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (!_isEnabled) {
-      handler.next(err);
-      return;
-    }
-
-    // You can optionally push a failure event here if you want
     handler.next(err);
   }
 
@@ -113,6 +107,6 @@ class ApiTrackingInterceptor extends Interceptor {
     final header = 'API schema change detected for $key';
     final buffer = StringBuffer()..writeln(header);
     buffer.writeln(diffText);
-    AppLogger.log(buffer.toString());
+    WinDevTool.config.log(buffer.toString());
   }
 }

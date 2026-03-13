@@ -34,6 +34,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: Column(
           children: [
             Text('Home').p(16),
+            TextFormField(),
             FilledButton(
               onPressed: () async {
                 await Future.delayed(const Duration(seconds: 1), () {});

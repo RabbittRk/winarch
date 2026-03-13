@@ -1,13 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:winarch/core/connectivity/connectivity_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:winarch/core/devtools/dev_api_snapshot_repository.dart';
 import 'package:winarch/core/logger/app_logger.dart';
-import 'package:winarch/core/network/api_tracking_interceptor.dart';
 import 'package:winarch/core/network/auth_interceptor.dart';
 import 'package:winarch/core/network/connectivity_interceptor.dart';
-import 'package:winarch/env/app.env.dart';
 import 'package:winarch/storage/secure_storage_helper.dart';
+import 'package:windevtool/windevtool.dart';
 
 /// Creates a configured [Dio] instance with connectivity, auth, and logging interceptors.
 Dio createDio({
@@ -36,12 +33,9 @@ Dio createDio({
     ],
   );
 
-  // Dev-only API schema tracking to Firestore.
-  if (AppEnvironment().appEnvType == AppEnvType.dev) {
-    final repo = DevApiSnapshotRepository(FirebaseFirestore.instance);
-    dio.interceptors.add(
-      ApiTrackingInterceptor(repository: repo),
-    );
+  // Dev-only API schema tracking to Firestore (from windevtool package)
+  if (WinDevTool.isInitialized && WinDevTool.config.isEnabled) {
+    dio.interceptors.add(ApiTrackingInterceptor());
   }
 
   dio.interceptors.add(

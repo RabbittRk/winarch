@@ -1,4 +1,4 @@
-import 'package:winarch/core/devtools/api_schema_diff.dart';
+import 'api_schema_diff.dart';
 
 Map<String, dynamic> apiSchemaNodeToJson(ApiSchemaNode node) {
   return {

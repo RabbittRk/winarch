@@ -5,8 +5,7 @@ import 'package:winarch/features/auth/presentation/auth_providers.dart';
 import 'package:winarch/features/auth/presentation/login_screen.dart';
 import 'package:winarch/features/home.screen.dart';
 import 'package:winarch/router/splash_screen.dart';
-import 'package:winarch/core/devtools/dev_api_tracking_banner.dart';
-import 'package:winarch/core/devtools/dev_api_tracking_screen.dart';
+import 'package:windevtool/windevtool.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   ref.watch(authFromStorageProvider);

@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:winarch/core/devtools/dev_api_tracking_providers.dart';
-import 'package:winarch/env/app.env.dart';
+
+import '../config/windevtool_config.dart';
+import '../providers/dev_api_tracking_providers.dart';
 
 class DevApiTrackingBanner extends ConsumerStatefulWidget {
   const DevApiTrackingBanner({super.key});
@@ -18,8 +18,6 @@ class _DevApiTrackingBannerState extends ConsumerState<DevApiTrackingBanner>
   late final AnimationController _controller;
 
   bool _isRippling = false;
-
-  // -1 means "not yet initialised"; first build just seeds the value.
   int _lastDiffVersion = -1;
 
   @override
@@ -56,7 +54,7 @@ class _DevApiTrackingBannerState extends ConsumerState<DevApiTrackingBanner>
 
   @override
   Widget build(BuildContext context) {
-    if (!kDebugMode || AppEnvironment().appEnvType != AppEnvType.dev) {
+    if (!WinDevTool.isInitialized || !WinDevTool.config.isEnabled) {
       return const SizedBox.shrink();
     }
 
@@ -67,10 +65,8 @@ class _DevApiTrackingBannerState extends ConsumerState<DevApiTrackingBanner>
     );
 
     if (_lastDiffVersion == -1) {
-      // First build – just record current version, don't ripple.
       _lastDiffVersion = diffVersion;
     } else if (diffVersion > _lastDiffVersion) {
-      // A genuinely new schema diff was recorded anywhere.
       _lastDiffVersion = diffVersion;
       _triggerRipple();
     } else {
@@ -78,10 +74,10 @@ class _DevApiTrackingBannerState extends ConsumerState<DevApiTrackingBanner>
     }
 
     final colorScheme = Theme.of(context).colorScheme;
+    final route = WinDevTool.config.apiTrackingRoute;
 
-    final Widget fab = FloatingActionButton.extended(
-      onPressed: () => context.push('/dev/api-tracking'),
-      label: const Text('API Tracking'),
+    final Widget fab = FloatingActionButton(
+      onPressed: () => context.push(route),
     );
 
     return Align(
@@ -115,7 +111,7 @@ class _DevApiTrackingBannerState extends ConsumerState<DevApiTrackingBanner>
                       ? [
                           BoxShadow(
                             color: (borderColor ?? colorScheme.error)
-                                .withOpacity(0.4),
+                                .withValues(alpha: 0.4),
                             blurRadius: 12,
                             spreadRadius: 2,
                           ),

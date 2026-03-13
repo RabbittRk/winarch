@@ -1,0 +1,22 @@
+name: windevtool
+description: "Zero-config developer tools package for API tracking and schema diff detection."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.6.2
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^3.2.1
+  firebase_core: ^4.5.0
+  cloud_firestore: ^6.1.3
+  go_router: ^17.1.0
+  dio: ^5.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

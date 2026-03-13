@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:winarch/core/devtools/dev_api_snapshot_models.dart';
+
+import '../config/windevtool_config.dart';
+import '../models/dev_api_snapshot_models.dart';
 
 const _snapshotsCollection = 'dev_api_snapshots';
 const _eventsSubcollection = 'events';
 
 class DevApiSnapshotRepository {
-  DevApiSnapshotRepository(this._firestore);
+  DevApiSnapshotRepository([FirebaseFirestore? firestore])
+      : _firestore = firestore ?? WinDevTool.config.firestore;
 
   final FirebaseFirestore _firestore;
 

@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:winarch/core/devtools/dev_api_snapshot_models.dart';
+
+import '../config/windevtool_config.dart';
+import '../models/dev_api_snapshot_models.dart';
 
 final devApiSnapshotsStreamProvider =
     StreamProvider<List<DevSnapshot>>((ref) async* {
-  final snapshotsQuery = FirebaseFirestore.instance
+  final firestore = WinDevTool.config.firestore;
+  final snapshotsQuery = firestore
       .collection('dev_api_snapshots')
       .orderBy('latestCapturedAt', descending: true);
 
@@ -95,7 +98,8 @@ final devApiLatestDiffVersionProvider = Provider<AsyncValue<int>>((ref) {
 final devApiSnapshotEventsProvider =
     StreamProvider.family<List<DevSnapshotEvent>, String>(
         (ref, snapshotId) async* {
-  final eventsQuery = FirebaseFirestore.instance
+  final firestore = WinDevTool.config.firestore;
+  final eventsQuery = firestore
       .collection('dev_api_snapshots')
       .doc(snapshotId)
       .collection('events')
