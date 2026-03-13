@@ -4,7 +4,7 @@ import 'package:winarch/core/logger/app_logger.dart';
 import 'package:winarch/core/network/auth_interceptor.dart';
 import 'package:winarch/core/network/connectivity_interceptor.dart';
 import 'package:winarch/storage/secure_storage_helper.dart';
-import 'package:windevtool/windevtool.dart';
+// import 'package:windevtool/windevtool.dart';
 
 /// Creates a configured [Dio] instance with connectivity, auth, and logging interceptors.
 Dio createDio({
@@ -34,9 +34,9 @@ Dio createDio({
   );
 
   // Dev-only API schema tracking to Firestore (from windevtool package)
-  if (WinDevTool.isInitialized && WinDevTool.config.isEnabled) {
-    dio.interceptors.add(ApiTrackingInterceptor());
-  }
+  // if (WinDevTool.isInitialized && WinDevTool.config.isEnabled) {
+  //   dio.interceptors.add(ApiTrackingInterceptor());
+  // }
 
   dio.interceptors.add(
     LogInterceptor(

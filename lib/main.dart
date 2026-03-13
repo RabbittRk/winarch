@@ -8,7 +8,7 @@ import 'package:winarch/env/app.env.dart';
 import 'package:winarch/env/dev.env.dart';
 import 'package:winarch/router/app_router.dart';
 import 'package:winarch/theme/theme.dart';
-import 'package:windevtool/windevtool.dart';
+// import 'package:windevtool/windevtool.dart';
 
 Future<void> main({AppEnvironment? environment}) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,16 +19,16 @@ Future<void> main({AppEnvironment? environment}) async {
   );
 
   // Initialize devtool with env and firebase from the app
-  WinDevTool.initialize(
-    DefaultWinDevToolConfig(
-      envType: environment.appEnvType == AppEnvType.dev
-          ? 'dev'
-          : environment.appEnvType == AppEnvType.uat
-              ? 'uat'
-              : 'prod',
-      firebaseOptions: environment.firebaseOptions,
-    ),
-  );
+  // WinDevTool.initialize(
+  //   DefaultWinDevToolConfig(
+  //     envType: environment.appEnvType == AppEnvType.dev
+  //         ? 'dev'
+  //         : environment.appEnvType == AppEnvType.uat
+  //             ? 'uat'
+  //             : 'prod',
+  //     firebaseOptions: environment.firebaseOptions,
+  //   ),
+  // );
 
   configureDependencies(getIt, environment);
 
