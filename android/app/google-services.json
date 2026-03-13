@@ -27,9 +27,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:286879065430:android:ea248da593ebce06ab62f7",
+        "mobilesdk_app_id": "1:286879065430:android:e71692e2e7ae4e31ab62f7",
         "android_client_info": {
-          "package_name": "com.example.winarch"
+          "package_name": "com.skndan.winarch"
         }
       },
       "oauth_client": [],

@@ -6,30 +6,18 @@ import 'package:winarch/features/auth/presentation/auth_providers.dart';
 import 'package:winarch/features/auth/presentation/login_screen.dart';
 import 'package:winarch/features/home.screen.dart';
 import 'package:winarch/router/splash_screen.dart';
-// import 'package:windevtool/windevtool.dart';
 
-// ShellRoute(
-//     builder: (BuildContext context, GoRouterState state, Widget child) {
-//       return Stack(
-//         children: [
-//           child,
-//           const DevApiTrackingBanner(),
-//         ],
-//       );
-//     },
-//     routes: <RouteBase>[
-// GoRoute(
-//             path: '/dev/api-tracking',
-//             name: 'devApiTracking',
-//             builder: (BuildContext context, GoRouterState state) =>
-//                 const DevApiTrackingScreen(),
-//           ),
-// ]
-//   )
-// )
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'home');
+final _shellNavigatorExploreKey =
+    GlobalKey<NavigatorState>(debugLabel: 'explore');
+final _shellNavigatorProfileKey =
+    GlobalKey<NavigatorState>(debugLabel: 'profile');
+
 final goRouterProvider = Provider<GoRouter>((ref) {
   ref.watch(authFromStorageProvider);
   return GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
     redirect: (BuildContext context, GoRouterState state) {
       final authAsync =
@@ -47,12 +35,49 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       );
     },
     routes: <RouteBase>[
-      GoRoute(
-        path: '/',
-        name: 'home',
-        builder: (BuildContext context, GoRouterState state) =>
-            const HomePage(),
+      // Shell route with bottom navigation
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return ScaffoldWithNavBar(navigationShell: navigationShell);
+        },
+        branches: [
+          // Home tab
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorHomeKey,
+            routes: [
+              GoRoute(
+                path: '/',
+                name: 'home',
+                builder: (context, state) => const HomeTab(),
+              ),
+            ],
+          ),
+          // Explore tab
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorExploreKey,
+            routes: [
+              GoRoute(
+                path: '/explore',
+                name: 'explore',
+                builder: (context, state) => const ExploreTab(),
+              ),
+            ],
+          ),
+          // Profile tab
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorProfileKey,
+            routes: [
+              GoRoute(
+                path: '/profile',
+                name: 'profile',
+                builder: (context, state) => const ProfileTab(),
+              ),
+            ],
+          ),
+        ],
       ),
+
+      // Auth routes (outside shell)
       GoRoute(
         path: '/splash',
         name: 'splash',
@@ -66,7 +91,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             const LoginPage(),
       ),
 
-      // Module routes
+      // Module routes (outside shell - full screen)
       ...getCarsRoutes(),
     ],
   );
