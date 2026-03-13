@@ -1,4 +1,4 @@
-package com.example.winarch
+package com.skndan.winarch
 
 import io.flutter.embedding.android.FlutterActivity
 
